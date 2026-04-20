@@ -342,13 +342,25 @@ app.delete(
 /* ================= DB CONNECT ================= */
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected ✅"))
-  .catch((err) => console.log(err));
+  .then(() => {
+    console.log("MongoDB Connected ✅");
+
+    app.listen(PORT, () => {
+      console.log("Server running 🚀");
+    });
+  })
+  .catch((err) => {
+    console.log("MongoDB Error ❌", err);
+  });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log("Server running 🚀");
-  console.log("JWT:", process.env.JWT_SECRET);
-console.log("MONGO:", process.env.MONGO_URI);
-});
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected ✅");
+
+    app.listen(PORT, () => {
+      console.log("Server running 🚀");
+    });
+  })
+  .catch(err => console.log(err));
